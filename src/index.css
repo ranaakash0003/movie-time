@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --primary-color: #f04b4b;
+  --primary-hover: #e63946;
+  --primary-dark: #d32f2f;
+  --netflix-black: #141414;
+  --netflix-dark-gray: #2f2f2f;
+  --netflix-gray: #808080;
+  --netflix-light-gray: #b3b3b3;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #000000;
+  color: white;
+  line-height: 1.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--netflix-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--netflix-gray);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--netflix-light-gray);
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
