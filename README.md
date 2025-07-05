@@ -2,7 +2,7 @@
 
 A modern, Netflix-inspired movie discovery and watchlist management application built with React and Vite.
 
-![MovieTime Logo](https://via.placeholder.com/800x200/000000/F04B4B?text=MovieTime)
+![MovieTime Logo](https://drive.google.com/file/d/1Z7ziMsfcKwk3WaGtiCdVeKRUYsGJ9WWK/view?usp=sharing)
 
 ## ✨ Features
 
