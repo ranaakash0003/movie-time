@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Loader } from "lucide-react";
+import { Search, Loader, X } from "lucide-react";
 import MovieCard from "../components/MovieCard";
 import { APIs } from "../services/movieService";
 import watchlistService from "../services/watchlistService";
@@ -47,7 +47,7 @@ export default function SearchPage() {
     <div className="min-h-screen bg-black">
       <div className="relative bg-gradient-to-b from-gray-900 via-black to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 pt-12 md:pt-0">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
               Discover Amazing Movies
             </h1>
@@ -68,7 +68,7 @@ export default function SearchPage() {
                 onKeyDown={handleKeyPress}
                 className="w-full bg-gray-900/80 backdrop-blur-md border border-gray-700 rounded-full py-4 pl-12 pr-32 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-lg"
                 placeholder="Search for movies, actors, directors..."
-              />
+              />{" "}
               <div className="absolute inset-y-0 right-0 flex items-center space-x-2 pr-2">
                 <button
                   onClick={() => searchMovies(query, "search")}
@@ -81,6 +81,20 @@ export default function SearchPage() {
                     "Search"
                   )}
                 </button>
+
+                {query !== "" && results.length > 0 && (
+                  <button
+                    onClick={() => {
+                      setQuery("");
+                      setResults([]);
+                      searchMovies("popular");
+                    }}
+                    className="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded-full transition-all hover:scale-105"
+                    title="Clear search"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                )}
               </div>
             </div>
           </div>

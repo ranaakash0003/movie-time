@@ -1,12 +1,55 @@
-# React + Vite
+# 🎬 MovieTime
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, Netflix-inspired movie discovery and watchlist management application built with React and Vite.
 
-Currently, two official plugins are available:
+![MovieTime Logo](https://via.placeholder.com/800x200/000000/F04B4B?text=MovieTime)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🔍 **Movie Search**: Search for movies using TMDB API
+- 📱 **Responsive Design**: Netflix-like UI that works on all devices
+- 🎯 **Personal Watchlist**: Add and remove movies from your personal collection
+- 👤 **User Authentication**: Secure login and signup system
+- 🎨 **Modern UI**: Beautiful dark theme with smooth animations
+- 📊 **Movie Details**: Comprehensive movie information including cast, crew, and reviews
+- ⚡ **Fast Performance**: Built with Vite for lightning-fast development and builds
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+
+- **Node.js** (version 16.0 or higher)
+- **npm** (usually comes with Node.js)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/movie-time.git
+   cd movie-time
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+
+   Navigate to `http://localhost:5173` to see the application running.
+
+---
+
+**Built with ❤️ by Rana**
+
+_MovieTime - Your personal movie companion_ 🍿
