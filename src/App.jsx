@@ -3,7 +3,7 @@ import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SearchPage from "./pages/SearchPage";
 import MovieDetails from "./pages/MovieDetails";
-import Watchlist from "./pages/Watchlist";
+import WatchList from "./pages/WatchList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useAuth } from "./context/AuthContext";
@@ -39,7 +39,7 @@ function App() {
           {user && (
             <>
               <Route path="/search" element={<SearchPage />} />
-              <Route path="/watchlist" element={<Watchlist />} />
+              <Route path="/watchlist" element={<WatchList />} />
               <Route path="/movie/:id" element={<MovieDetails />} />
             </>
           )}
