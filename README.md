@@ -2,8 +2,6 @@
 
 A modern, Netflix-inspired movie discovery and watchlist management application built with React and Vite.
 
-![MovieTime Logo](https://drive.google.com/file/d/1Z7ziMsfcKwk3WaGtiCdVeKRUYsGJ9WWK/view?usp=sharing)
-
 ## ✨ Features
 
 - 🔍 **Movie Search**: Search for movies using TMDB API
@@ -48,7 +46,9 @@ Make sure you have the following installed on your machine:
 
    Navigate to `http://localhost:5173` to see the application running.
 
----
+5. **Default Email and Password**
+   - Email: test@gmail.com
+   - Password: test1234
 
 **Built with ❤️ by Rana**
 
