@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import watchlistService from "../services/watchListService";
+import watchlistService from "../services/watchlistService";
 import { Film, Search } from "lucide-react";
 import MovieCard from "../components/MovieCard";
 

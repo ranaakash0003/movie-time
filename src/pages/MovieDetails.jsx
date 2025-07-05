@@ -13,7 +13,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { getImageBasePath } from "../constants";
 import { APIs } from "../services/movieService";
-import watchlistService from "../services/watchListService";
+import watchlistService from "../services/watchlistService";
 
 export default function MovieDetails() {
   const { id } = useParams();

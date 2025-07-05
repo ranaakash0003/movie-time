@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Loader } from "lucide-react";
 import MovieCard from "../components/MovieCard";
 import { APIs } from "../services/movieService";
-import watchlistService from "../services/watchListService";
+import watchlistService from "../services/watchlistService";
 import { useAuth } from "../context/AuthContext";
 
 export default function SearchPage() {
