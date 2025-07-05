@@ -56,7 +56,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 pt-8">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-black"></div>
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">

@@ -3,8 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("test1234");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function Login() {
     setIsLoading(true);
     setTimeout(() => {
       if (login(email, password)) {
-        navigate("/watchlist");
+        navigate("/search");
       } else {
         alert("Invalid credentials");
       }

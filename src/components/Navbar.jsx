@@ -36,8 +36,11 @@ export default function Navbar() {
                   : "text-gray-300 hover:text-white"
               }`}
             >
-              <Search className="w-4 h-4" />
-              <span>Browse</span>
+              {user && (
+                <>
+                  <Search className="w-4 h-4" /> <span>Browse</span>
+                </>
+              )}
             </Link>
 
             {user && (
