@@ -11,7 +11,6 @@ function App() {
   const { user } = useAuth();
   const location = useLocation();
 
-  // Hide navbar on login and signup pages
   const hideNavbar = ["/login", "/signup"].includes(location.pathname);
 
   return (

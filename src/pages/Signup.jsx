@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -41,14 +41,10 @@ export default function Signup() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
       return;
     }
-
     setIsLoading(true);
-
-    // Simulate loading for better UX
     setTimeout(() => {
       if (signup(email, password)) {
         navigate("/watchlist");
@@ -61,33 +57,24 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-black"></div>
-
-      {/* Signup Card */}
       <div className="relative z-10 w-full max-w-md">
-        {/* Logo/Brand */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">
             Movie<span style={{ color: "var(--primary-color)" }}>Time</span>
           </h1>
           <p className="text-gray-400">Join the ultimate movie experience</p>
         </div>
-
-        {/* Signup Form */}
         <div className="bg-black/75 backdrop-blur-sm border border-gray-800 rounded-lg p-8 shadow-2xl">
           <h2 className="text-2xl font-semibold text-white mb-6 text-center">
             Create Account
           </h2>
-
           {errors.general && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
               <p className="text-red-400 text-sm">{errors.general}</p>
             </div>
           )}
-
           <form onSubmit={handleSignup} className="space-y-4">
-            {/* Email Input */}
             <div className="space-y-2">
               <label
                 htmlFor="email"
@@ -114,8 +101,6 @@ export default function Signup() {
                 <p className="text-red-400 text-sm">{errors.email}</p>
               )}
             </div>
-
-            {/* Password Input */}
             <div className="space-y-2">
               <label
                 htmlFor="password"
@@ -153,8 +138,6 @@ export default function Signup() {
                 <p className="text-red-400 text-sm">{errors.password}</p>
               )}
             </div>
-
-            {/* Confirm Password Input */}
             <div className="space-y-2">
               <label
                 htmlFor="confirmPassword"
@@ -194,8 +177,6 @@ export default function Signup() {
                 <p className="text-red-400 text-sm">{errors.confirmPassword}</p>
               )}
             </div>
-
-            {/* Terms and Conditions */}
             <div className="flex items-start">
               <input
                 id="terms"
@@ -220,8 +201,6 @@ export default function Signup() {
                 </a>
               </label>
             </div>
-
-            {/* Signup Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -238,14 +217,11 @@ export default function Signup() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-1 border-t border-gray-700"></div>
             <span className="px-4 text-gray-500 text-sm">or</span>
             <div className="flex-1 border-t border-gray-700"></div>
           </div>
-
-          {/* Sign In Link */}
           <div className="text-center">
             <p className="text-gray-400">
               Already have an account?{" "}
@@ -258,8 +234,6 @@ export default function Signup() {
             </p>
           </div>
         </div>
-
-        {/* Additional Info */}
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500">
             By creating an account, you agree to our Terms of Service and

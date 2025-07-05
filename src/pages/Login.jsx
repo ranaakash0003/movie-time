@@ -12,8 +12,6 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate loading for better UX
     setTimeout(() => {
       if (login(email, password)) {
         navigate("/watchlist");
@@ -26,12 +24,9 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black to-black"></div>
 
-      {/* Login Card */}
       <div className="relative z-10 w-full max-w-md">
-        {/* Logo/Brand */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">
             Movie<span style={{ color: "var(--primary-color)" }}>Time</span>
@@ -39,14 +34,12 @@ export default function Login() {
           <p className="text-gray-400">Your personal movie companion</p>
         </div>
 
-        {/* Login Form */}
         <div className="bg-black/75 backdrop-blur-sm border border-gray-800 rounded-lg p-8 shadow-2xl">
           <h2 className="text-2xl font-semibold text-white mb-6 text-center">
             Sign In
           </h2>
 
           <form onSubmit={handleLogin} className="space-y-4">
-            {/* Email Input */}
             <div className="space-y-2">
               <label
                 htmlFor="email"
@@ -65,7 +58,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Password Input */}
             <div className="space-y-2">
               <label
                 htmlFor="password"
@@ -83,8 +75,6 @@ export default function Login() {
                 required
               />
             </div>
-
-            {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between">
               <label className="flex items-center">
                 <input
@@ -100,8 +90,6 @@ export default function Login() {
                 Forgot password?
               </a>
             </div>
-
-            {/* Login Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -117,15 +105,11 @@ export default function Login() {
               )}
             </button>
           </form>
-
-          {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-1 border-t border-gray-700"></div>
             <span className="px-4 text-gray-500 text-sm">or</span>
             <div className="flex-1 border-t border-gray-700"></div>
           </div>
-
-          {/* Sign Up Link */}
           <div className="text-center">
             <p className="text-gray-400">
               New to MovieTime?{" "}
@@ -138,8 +122,6 @@ export default function Login() {
             </p>
           </div>
         </div>
-
-        {/* Additional Info */}
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500">
             This page is protected by reCAPTCHA and the Google{" "}

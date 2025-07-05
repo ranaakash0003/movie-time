@@ -1,4 +1,3 @@
-// services/watchlistService.js - Watchlist Management Service
 const watchlistService = {
   getWatchlist: (userId) => {
     const key = `watchlist_${userId}`;
@@ -14,20 +13,22 @@ const watchlistService = {
       localStorage.setItem(key, JSON.stringify(watchlist));
       return true;
     }
-    return false; // Movie already in watchlist
+    return false;
   },
 
   removeFromWatchlist: (userId, movieId) => {
     const key = `watchlist_${userId}`;
     const watchlist = watchlistService.getWatchlist(userId);
-    const filtered = watchlist.filter((m) => m.id !== movieId);
+    const filtered = watchlist.filter(
+      (m) => parseInt(m.id) !== parseInt(movieId)
+    );
     localStorage.setItem(key, JSON.stringify(filtered));
     return true;
   },
 
   isInWatchlist: (userId, movieId) => {
     const watchlist = watchlistService.getWatchlist(userId);
-    return watchlist.some((m) => m.id === movieId);
+    return watchlist.some((m) => parseInt(m.id) === parseInt(movieId));
   },
 
   clearWatchlist: (userId) => {

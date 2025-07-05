@@ -1,37 +1,19 @@
 import { useState, useEffect } from "react";
-import { Search, Filter, X, Loader } from "lucide-react";
+import { Search, Loader } from "lucide-react";
 import MovieCard from "../components/MovieCard";
 import { APIs } from "../services/movieService";
+import watchlistService from "../services/watchListService";
+import { useAuth } from "../context/AuthContext";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
+  const { user } = useAuth();
 
-  const genres = [
-    "Action",
-    "Adventure",
-    "Animation",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Family",
-    "Fantasy",
-    "Horror",
-    "Mystery",
-    "Romance",
-    "Sci-Fi",
-    "Thriller",
-    "War",
-    "Western",
-  ];
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
+  useEffect(() => {
+    searchMovies("popular");
+  }, []);
 
   const searchMovies = async (searchQuery, type) => {
     if (!searchQuery || !searchQuery.trim()) return;
@@ -39,17 +21,11 @@ export default function SearchPage() {
     try {
       const res = await APIs.fetchMovies(searchQuery, type);
       setResults(res || []);
-    } catch (error) {
+    } catch (err) {
       setResults([]);
     } finally {
       setLoading(false);
     }
-  };
-
-  const clearFilters = () => {
-    setSelectedGenre("");
-    setSelectedYear("");
-    setShowFilters(false);
   };
 
   const handleKeyPress = (e) => {
@@ -58,17 +34,19 @@ export default function SearchPage() {
     }
   };
 
-  // Popular movies on initial load - only run once
-  useEffect(() => {
-    searchMovies("popular");
-  }, []);
+  const onWatchlistToggle = (movie) => {
+    if (watchlistService.isInWatchlist(user.email, movie.id)) {
+      watchlistService.removeFromWatchlist(user.email, movie.id);
+    } else {
+      watchlistService.addToWatchlist(user.email, movie);
+    }
+    setResults((prevResults) => [...prevResults]);
+  };
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Hero Section */}
       <div className="relative bg-gradient-to-b from-gray-900 via-black to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Welcome Message */}
           <div className="text-center mb-8">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
               Discover Amazing Movies
@@ -78,8 +56,6 @@ export default function SearchPage() {
               never miss a great film again.
             </p>
           </div>
-
-          {/* Search Bar */}
           <div className="max-w-4xl mx-auto mb-8">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -89,7 +65,7 @@ export default function SearchPage() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 className="w-full bg-gray-900/80 backdrop-blur-md border border-gray-700 rounded-full py-4 pl-12 pr-32 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-lg"
                 placeholder="Search for movies, actors, directors..."
               />
@@ -111,7 +87,6 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {/* Results Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
           <div className="flex justify-center items-center py-20">
@@ -132,19 +107,23 @@ export default function SearchPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {results.map((movie) => (
                 <MovieCard
                   key={movie.id}
                   movie={{
                     ...movie,
                     id: movie.id,
-                    title: movie.Title,
+                    title: movie.original_title,
                     poster_path:
                       movie.poster_path !== "N/A" ? movie.poster_path : null,
                     release_date: movie.Year,
-                    vote_average: 0, // OMDb doesn't provide ratings in search
                   }}
+                  onWatchlistToggle={onWatchlistToggle}
+                  isInWatchlist={watchlistService.isInWatchlist(
+                    user.email,
+                    movie.id
+                  )}
                 />
               ))}
             </div>

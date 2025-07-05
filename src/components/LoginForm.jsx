@@ -1,4 +1,3 @@
-// components/LoginForm.js - Authentication Component
 import React, { useState } from "react";
 import { Film } from "lucide-react";
 import { useAuth } from "../context/AuthContext";

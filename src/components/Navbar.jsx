@@ -21,15 +21,12 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <Film className="w-8 h-8 text-[var(--primary-color)] group-hover:scale-110 transition-transform" />
             <span className="text-2xl font-bold">
               Movie<span className="text-[var(--primary-color)]">Time</span>
             </span>
           </Link>
-
-          {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
               to="/search"
@@ -57,8 +54,6 @@ export default function Navbar() {
               </Link>
             )}
           </div>
-
-          {/* User Menu */}
           <div className="flex items-center space-x-4">
             {user ? (
               <div className="relative">
@@ -72,13 +67,10 @@ export default function Navbar() {
 
                 {isProfileOpen && (
                   <>
-                    {/* Backdrop */}
                     <div
                       className="fixed inset-0 z-10"
                       onClick={() => setIsProfileOpen(false)}
                     />
-
-                    {/* Dropdown Menu */}
                     <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-20">
                       <div className="py-2">
                         <div className="px-4 py-2 border-b border-gray-700">
@@ -96,7 +88,6 @@ export default function Navbar() {
                           <Bookmark className="w-4 h-4" />
                           <span>My List</span>
                         </Link>
-
                         <button
                           onClick={handleLogout}
                           className="flex items-center space-x-2 w-full px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
@@ -128,8 +119,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
       <div className="md:hidden border-t border-gray-800">
         <div className="flex items-center justify-around py-2">
           <Link

@@ -9,11 +9,11 @@ import {
   Calendar,
   Clock,
   Globe,
-  Heart,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { getImageBasePath } from "../constants";
 import { APIs } from "../services/movieService";
+import watchlistService from "../services/watchListService";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -25,24 +25,6 @@ export default function MovieDetails() {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
 
   useEffect(() => {
-    // const fetchDetails = async () => {
-    //   try {
-    //     setLoading(true);
-    //     const res = await axios.get(
-    //       `https://www.omdbapi.com/?apikey=YOUR_KEY&i=${id}&plot=full`
-    //     );
-    //     if (res.data.Response === "True") {
-    //       setMovie(res.data);
-    //     } else {
-    //       console.error("Movie not found");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching movie details:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
     if (id) {
       fetchDetails(id);
     }
@@ -50,10 +32,7 @@ export default function MovieDetails() {
 
   useEffect(() => {
     if (user) {
-      const stored =
-        JSON.parse(localStorage.getItem(`watchlist_${user.id}`)) || [];
-      setWatchlist(stored);
-      setIsInWatchlist(stored.some((m) => m.imdbID === id));
+      setIsInWatchlist(watchlistService.isInWatchlist(user.email, id));
     }
   }, [user, id]);
 
@@ -61,7 +40,6 @@ export default function MovieDetails() {
     try {
       setLoading(true);
       const data = await APIs.getMovieDetails(id);
-      console.log("ggggggggggg", data);
       window.scrollTo(0, 0);
       setMovie(data);
     } catch (error) {
@@ -79,7 +57,8 @@ export default function MovieDetails() {
 
     let updated;
     if (isInWatchlist) {
-      updated = watchlist.filter((m) => m.imdbID !== id);
+      watchlistService.removeFromWatchlist(user.email, movie.id);
+      updated = watchlistService.getWatchlist(user.email);
     } else {
       updated = [
         ...watchlist,
@@ -89,7 +68,7 @@ export default function MovieDetails() {
 
     setWatchlist(updated);
     setIsInWatchlist(!isInWatchlist);
-    localStorage.setItem(`watchlist_${user.id}`, JSON.stringify(updated));
+    localStorage.setItem(`watchlist_${user.email}`, JSON.stringify(updated));
   };
 
   if (loading) {
@@ -124,48 +103,38 @@ export default function MovieDetails() {
   const backdropUrl = `${getImageBasePath("original")}${movie.backdrop_path}`;
   return (
     <div className="min-h-screen bg-black">
-      {/* Hero Section with Backdrop */}
       <div className="relative h-screen">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src={backdropUrl}
-            alt={movie.Title}
+            alt={movie.original_title}
             className="w-full h-full object-cover opacity-30"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent"></div>
         </div>
-
-        {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
           className="absolute z-20 top-20 left-4 sm:left-8 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all hover:scale-110 backdrop-blur-sm cursor-pointer"
         >
           <ArrowLeft className="w-6 h-6" />
         </button>
-
-        {/* Content */}
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              {/* Poster */}
               <div className="lg:col-span-1">
                 <div className="max-w-sm mx-auto lg:mx-0">
                   <img
                     src={posterUrl}
-                    alt={movie.Title}
+                    alt={movie.original_title}
                     className="w-full rounded-xl shadow-2xl border border-gray-700"
                   />
                 </div>
               </div>
-
-              {/* Movie Info */}
               <div className="lg:col-span-2 text-center lg:text-left">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-                  {movie.Title}
+                  {movie.original_title}
                 </h1>
-
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-6 text-gray-300">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
@@ -177,15 +146,13 @@ export default function MovieDetails() {
                   </div>
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span>{movie.vote_count}/10</span>
+                    <span>{movie.vote_average}/10</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Globe className="w-4 h-4" />
                     <span>{movie.origin_country[0]}</span>
                   </div>
                 </div>
-
-                {/* Genres */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
                   {movie.genres.map((genre, index) => (
                     <span
@@ -196,15 +163,14 @@ export default function MovieDetails() {
                     </span>
                   ))}
                 </div>
-
-                {/* Plot */}
                 <p className="text-gray-300 text-lg leading-relaxed mb-8 max-w-3xl">
                   {movie.overview}
                 </p>
-
-                {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <button className="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-lg font-bold text-lg transition-all hover:scale-105 flex items-center justify-center gap-3">
+                  <button
+                    className="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-lg font-bold text-lg transition-all hover:scale-105 flex items-center justify-center gap-3"
+                    onClick={() => alert("Coming Soon...")}
+                  >
                     <Play className="w-6 h-6 fill-current" />
                     Watch Trailer
                   </button>
@@ -235,37 +201,33 @@ export default function MovieDetails() {
           </div>
         </div>
       </div>
-
-      {/* Additional Details */}
       <div className="bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Cast & Crew */}
             <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
-              <h3 className="text-xl font-bold text-white mb-4">Cast & Crew</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Details</h3>
               <div className="space-y-4">
                 <div>
                   <h4 className="text-[var(--primary-color)] font-semibold mb-1">
-                    Director
+                    Title
+                  </h4>
+                  <p className="text-gray-300">{movie.original_title}</p>
+                </div>
+                <div>
+                  <h4 className="text-[var(--primary-color)] font-semibold mb-1">
+                    Status
                   </h4>
                   <p className="text-gray-300">{movie.status}</p>
                 </div>
                 <div>
                   <h4 className="text-[var(--primary-color)] font-semibold mb-1">
-                    Writer
+                    Runtime
                   </h4>
-                  <p className="text-gray-300">{movie.status}</p>
-                </div>
-                <div>
-                  <h4 className="text-[var(--primary-color)] font-semibold mb-1">
-                    Stars
-                  </h4>
-                  <p className="text-gray-300">{movie.status}</p>
+                  <p className="text-gray-300">{movie.runtime} minutes</p>
                 </div>
               </div>
             </div>
 
-            {/* Technical Details */}
             <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
               <h3 className="text-xl font-bold text-white mb-4">
                 Technical Details
@@ -281,20 +243,17 @@ export default function MovieDetails() {
                   <h4 className="text-[var(--primary-color)] font-semibold mb-1">
                     Rated
                   </h4>
-                  <p className="text-gray-300">{movie.original_language}</p>
+                  <p className="text-gray-300">{movie.adult ? "R" : "PG-13"}</p>
                 </div>
                 <div>
                   <h4 className="text-[var(--primary-color)] font-semibold mb-1">
                     Box Office
                   </h4>
-                  <p className="text-gray-300">
-                    {movie.original_language || "N/A"}
-                  </p>
+                  <p className="text-gray-300">{movie.box_office || "N/A"}</p>
                 </div>
               </div>
             </div>
 
-            {/* Awards */}
             <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
               <h3 className="text-xl font-bold text-white mb-4">
                 Awards & Recognition
@@ -302,17 +261,15 @@ export default function MovieDetails() {
               <div className="space-y-4">
                 <div>
                   <h4 className="text-[var(--primary-color)] font-semibold mb-1">
-                    Awards
+                    Vote Count
                   </h4>
-                  <p className="text-gray-300">{movie.original_language}</p>
+                  <p className="text-gray-300">{movie.vote_count || "N/A"}</p>
                 </div>
                 <div>
                   <h4 className="text-[var(--primary-color)] font-semibold mb-1">
                     Metascore
                   </h4>
-                  <p className="text-gray-300">
-                    {movie.original_language || "N/A"}
-                  </p>
+                  <p className="text-gray-300">{movie.metascore || "N/A"}</p>
                 </div>
               </div>
             </div>
